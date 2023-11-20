@@ -6,6 +6,14 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+
+
+enum SlideDirection {
+  LEFT = 'LEFT',
+  RIGHT = 'RIGHT',
+  NONE = 'NONE', // when there is no movement
+}
+
 @Component({
   selector: 'app-swiper',
   standalone: true,
@@ -19,6 +27,7 @@ export class SwiperComponent {
     title: string;
     template?: TemplateRef<any>;
     visible: boolean;
+    direction?: SlideDirection;
   }> = [
     {
       title: 'Accelerated Charge',
@@ -29,11 +38,18 @@ export class SwiperComponent {
       visible: false,
     },
     {
-      title: 'New Chage',
+      title: 'New Charge',
       visible: false,
-    }
+    },
   ];
   activeIndex = 0;
+
+  slideDirection: SlideDirection = SlideDirection.NONE;
+
+  setActive(index: number): void {
+    this.activeIndex = index;
+    this.updateVisibility();
+  }
 
   ngAfterContentInit(): void {
     this.templates.forEach((template, index) => {
@@ -44,36 +60,28 @@ export class SwiperComponent {
     this.updateVisibility();
   }
 
-  toggleVisibility(index: number): void {
-    this.slides.forEach((slide, i) => {
-      slide.visible = i === index ? !slide.visible : false;
-    });
-  }
-
   nextSlide(): void {
+    this.slideDirection = SlideDirection.RIGHT;
     this.activeIndex = (this.activeIndex + 1) % this.slides.length;
     this.updateVisibility();
   }
 
   previousSlide(): void {
+    this.slideDirection = SlideDirection.LEFT;
     this.activeIndex =
       (this.activeIndex - 1 + this.slides.length) % this.slides.length;
     this.updateVisibility();
   }
 
-  setActive(index: number): void {
-    this.slides.forEach((slide, i) => {
-      slide.visible = i === index;
-    });
-  }
-
   goToSlide(index: number): void {
-    this.setActive(index);
+    this.activeIndex = index;
+    this.updateVisibility();
   }
 
   private updateVisibility(): void {
     this.slides.forEach((slide, index) => {
       slide.visible = index === this.activeIndex;
     });
+   this.slides[this.activeIndex].direction = this.slideDirection;
   }
 }

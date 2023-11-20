@@ -1,48 +1,37 @@
-<!-- <div class="swiper">
-  <div class="swiper-slides">
-    <div class="slide-header">
-      <div class="arrow left" (click)="previousSlide()">&lt;</div>
-      <div *ngFor="let slide of slides; let i = index" [ngClass]=" slide.visible ? 'active-slide' : 'not-active-slide' ">
-        <div class="swiper-contain" [ngClass]="{ active: slide.visible }" >
-          <h2
-            [ngClass]="{ active: slide.visible }"
-            (click)="toggleVisibility(i)"
-          >
-            {{ slide.title }}
-          </h2>
-          <div *ngIf="slide.visible" class="slide-content-active">
-            {{ slide.content }}
-          </div>
-        </div>
-      </div>
-      <div class="arrow right" (click)="nextSlide()">&gt;</div>
-    </div>
-    <div class="swiper-pagination">
-      <span *ngFor="let slide of slides; let i = index" [class.active]="slide.visible" (click)="goToSlide(i)">&bull;</span>
-    </div>
-  </div>
-</div>
- -->
-
 <div class="swiper">
   <div class="swiper-slides">
-    <div class="slide-header">
-      <div class="arrow left" (click)="previousSlide()">&lt;</div>
-      <div *ngFor="let slide of slides; let i = index" [ngClass]="slide.visible ? 'active-slide' : 'not-active-slide'">
+    <div class="slide-header"
+        *ngFor="let slide of slides; let i = index"
+        [ngClass]="{
+          'active-slide': slide.visible,
+          'slide-left': slide.direction === 'LEFT',
+          'slide-right': slide.direction === 'RIGHT',
+          'not-active-slide': !slide.visible
+        }"
+      >
         <div class="swiper-contain" [ngClass]="{ active: slide.visible }">
-          <h2 [ngClass]="{ active: slide.visible }" (click)="toggleVisibility(i)">
-            {{ slide.title }}
-          </h2>
+          <div class="swiper-header">
+            <div class="arrow left" (click)="previousSlide()">&lt;</div>
+            <h2 [ngClass]="{ active: slide.visible }" (click)="setActive(i)">
+              {{ slide.title }}
+            </h2>
+            <div class="arrow right" (click)="nextSlide()">&gt;</div>
+          </div>
           <ng-container *ngIf="slide.visible" class="slide-content-active">
-            <ng-container *ngTemplateOutlet="slide.template ?? null"></ng-container>
+            <ng-container
+              *ngTemplateOutlet="slide.template ?? null"
+            ></ng-container>
           </ng-container>
-        </div>
       </div>
-      <div class="arrow right" (click)="nextSlide()">&gt;</div>
+
     </div>
     <div class="swiper-pagination">
-      <span *ngFor="let slide of slides; let i = index" [class.active]="slide.visible"
-        (click)="goToSlide(i)">&bull;</span>
+      <span
+        *ngFor="let slide of slides; let i = index"
+        [class.active]="slide.visible"
+        (click)="goToSlide(i)"
+        >&bull;</span
+      >
     </div>
   </div>
 </div>

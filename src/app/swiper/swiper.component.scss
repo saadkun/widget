@@ -1,10 +1,47 @@
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slideOutToRight {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
 
 .swiper-slides{
   display: flex;
   flex-direction: column;
   gap: 1em;
-  justify-content: center;
+  justify-content: space-around;
+  overflow: hidden; // Added to hide the slides moving in/out
+  position: relative;
+  min-height: 300px;
 }
 h2 {
   cursor: pointer;
@@ -22,13 +59,47 @@ h2 {
   }
 }
 
+.active-slide, .not-active-slide {
+  position: absolute;
+  width: 100%;
+  transition: all 0.5s ease-in-out; // Transition for smooth animation
+  opacity: 0;
+  transform: translateX(-100%); // Start off-screen to the left
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .active-slide {
-    display: block;
+  opacity: 1;
+  transform: translateX(0); // Move into view
+  &.slide-left {
+    animation: slideInFromRight 0.5s ease-in-out forwards;
+  }
+  &.slide-right {
+    animation: slideInFromLeft 0.5s ease-in-out forwards;
+  }
 }
 
 .not-active-slide {
-    display: none;
+  opacity: 0;
+  transform: translateX(100%); // Move off-screen to the right
+  &.slide-left {
+    animation: slideOutToLeft 0.5s ease-in-out forwards;
+  }
+  &.slide-right {
+    animation: slideOutToRight 0.5s ease-in-out forwards;
+  }
 }
+
+.slide-left {
+  transform: translateX(-100%); // Start off-screen to the left
+}
+
+.slide-right {
+  transform: translateX(100%); // Start off-screen to the right
+}
+
 .slide-content {
   visibility: hidden
 }
@@ -68,18 +139,16 @@ h2 {
 
   .arrow {
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
   }
 
   .left {
-    left: 25%;
+     margin-right: 30px;
+
   }
 
   .right {
-    right: 25%;
+     margin-left: 30px;
+
   }
 }
 
@@ -95,4 +164,25 @@ h2 {
       color: #f00; // Active dot color
     }
   }
+}
+
+
+table,
+td {
+  border: 1px solid #333;
+}
+
+thead,
+tfoot {
+  background-color: #333;
+  color: #fff;
+}
+
+
+.swiper-header{
+  margin-bottom: 1em;
+      display: flex;
+    margin-bottom: 1em;
+    justify-content: center;
+    align-items: center;
 }
