@@ -6,8 +6,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-
-
 enum SlideDirection {
   LEFT = 'LEFT',
   RIGHT = 'RIGHT',
@@ -82,6 +80,6 @@ export class SwiperComponent {
     this.slides.forEach((slide, index) => {
       slide.visible = index === this.activeIndex;
     });
-   this.slides[this.activeIndex].direction = this.slideDirection;
+    this.slides[this.activeIndex].direction = this.slideDirection;
   }
 }

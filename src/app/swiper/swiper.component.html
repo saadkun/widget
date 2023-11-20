@@ -1,6 +1,7 @@
 <div class="swiper">
   <div class="swiper-slides">
-    <div class="slide-header"
+    <div class="slide-header">
+      <div
         *ngFor="let slide of slides; let i = index"
         [ngClass]="{
           'active-slide': slide.visible,
@@ -22,8 +23,8 @@
               *ngTemplateOutlet="slide.template ?? null"
             ></ng-container>
           </ng-container>
+        </div>
       </div>
-
     </div>
     <div class="swiper-pagination">
       <span
